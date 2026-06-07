@@ -1,6 +1,6 @@
 {
   "name": "@moritakaaz/opencode-apc",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "description": "Opencode plugin for aggressive automatic context pruning - triggers compression at 15k tokens to save costs",
   "main": "./dist/index.js",
