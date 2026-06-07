@@ -35,6 +35,14 @@ The plugin writes `.opencode/dcp.jsonc` with these defaults:
 
 To customize, edit `.opencode/dcp.jsonc` in your project — the plugin won't overwrite it.
 
+## Git and `.opencode/` directory
+
+The plugin creates a `.opencode/dcp.jsonc` file in your project. This file **is safe to commit** — it only contains DCP configuration and helps keep settings consistent across machines or collaborators.
+
+The plugin also generates a `.opencode/.gitignore` that excludes runtime files (`node_modules/`, `package.json`, etc.), so only `dcp.jsonc` ends up tracked by git.
+
+**TL;DR:** You can `git add .opencode/` without worry. Only the config file will be committed.
+
 ## Requirements
 
 - opencode with plugin support (`@opencode-ai/plugin >=1.4.3`)
