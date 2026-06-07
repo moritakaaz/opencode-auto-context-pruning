@@ -33,7 +33,60 @@ The plugin writes `.opencode/dcp.jsonc` with these defaults:
 | deduplication | enabled | Remove duplicate tool calls |
 | purgeErrors | turns: 2 | Prune errored inputs after 2 turns |
 
-To customize, edit `.opencode/dcp.jsonc` in your project — the plugin won't overwrite it.
+To customize, edit `.opencode/dcp.jsonc` in your project and **remove the `_apcVersion` field** — the plugin won't overwrite configs without this field.
+
+> **Important:** Config changes require an opencode restart. DCP reads config at session start — edits to `dcp.jsonc` won't take effect until you close and reopen opencode.
+
+### When to customize
+
+| Workflow | Recommendation |
+|----------|---------------|
+| Quick tasks, simple Q&A, small fixes | Use defaults (7k/3500) — maximum token savings |
+| Multi-file refactoring, iterative debugging | Raise to 10k/5000 — more working memory |
+| Security research, complex code analysis | Raise to 10k/5000 + moderate nudge — retain cross-references longer |
+| Very long sessions with deep context | Raise to 12k/6000 — but costs more tokens |
+
+### Custom config example
+
+For security research and complex development workflows that need more context retention:
+
+```jsonc
+// .opencode/dcp.jsonc — custom config (no _apcVersion = plugin won't overwrite)
+{
+  "$schema": "https://raw.githubusercontent.com/Opencode-DCP/opencode-dynamic-context-pruning/master/dcp.schema.json",
+  "compress": {
+    "mode": "range",
+    "permission": "allow",
+    "maxContextLimit": 10000,
+    "minContextLimit": 5000,
+    "nudgeFrequency": 4,
+    "nudgeForce": "moderate"
+  },
+  "manualMode": {
+    "enabled": false,
+    "automaticStrategies": true
+  },
+  "strategies": {
+    "deduplication": {
+      "enabled": true
+    },
+    "purgeErrors": {
+      "enabled": true,
+      "turns": 3
+    }
+  }
+}
+```
+
+**Differences from defaults:**
+
+| Setting | Default | Custom | Why |
+|---------|---------|--------|-----|
+| maxContextLimit | 7000 | 10000 | More working memory for cross-referencing code/vulnerabilities |
+| minContextLimit | 3500 | 5000 | Higher floor retains more detail after compression |
+| nudgeFrequency | 3 | 4 | Less frequent nudging — more room for iterative work |
+| nudgeForce | "strong" | "moderate" | AI uses its own judgment on when to compress |
+| purgeErrors.turns | 2 | 3 | Error messages stay longer — useful for debugging |
 
 ## Git and `.opencode/` directory
 
