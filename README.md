@@ -43,7 +43,7 @@ To customize, edit `.opencode/dcp.jsonc` in your project and **remove the `_apcV
 |----------|---------------|
 | Quick tasks, simple Q&A, small fixes | Use defaults (7k/3500) — maximum token savings |
 | Multi-file refactoring, iterative debugging | Raise to 10k/5000 — more working memory |
-| Security research, complex code analysis | Raise to 10k/5000 + moderate nudge — retain cross-references longer |
+| Complex code analysis, large codebases | Raise to 10k/5000 + moderate nudge — retain cross-references longer |
 | Very long sessions with deep context | Raise to 12k/6000 — but costs more tokens |
 
 ### Custom config example
@@ -82,7 +82,7 @@ For further optimization with more balanced context retention:
 
 | Setting | Default | Custom | Why |
 |---------|---------|--------|-----|
-| maxContextLimit | 7000 | 10000 | More working memory for cross-referencing code/vulnerabilities |
+| maxContextLimit | 7000 | 10000 | More working memory for cross-referencing multiple files |
 | minContextLimit | 3500 | 5000 | Higher floor retains more detail after compression |
 | nudgeFrequency | 3 | 4 | Less frequent nudging — more room for iterative work |
 | nudgeForce | "strong" | "moderate" | AI uses its own judgment on when to compress |
