@@ -1,6 +1,6 @@
 {
   "name": "@moritakaaz/opencode-apc",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Opencode plugin for aggressive automatic context pruning - triggers compression at 15k tokens to save costs",
   "main": "./dist/index.js",
@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "test": "node --test test/index.test.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -30,8 +31,7 @@
     "url": "git+https://github.com/moritakaaz/opencode-auto-context-pruning.git"
   },
   "files": [
-    "dist/",
-    "dcp.jsonc"
+    "dist/"
   ],
   "dependencies": {
     "@tarquinen/opencode-dcp": "^3.1.12"

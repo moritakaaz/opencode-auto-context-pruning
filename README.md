@@ -45,7 +45,19 @@ To customize, edit `.opencode/dcp.jsonc` in your project — the plugin won't ov
 ```bash
 npm install
 npm run build    # tsc -> dist/
+npm test         # node:test unit tests
 ```
+
+## Error Handling
+
+The plugin is designed to be resilient:
+- If config files can't be written (permission denied, disk full), a warning is logged but the plugin continues
+- If an existing config is malformed or missing required fields, a warning is logged but it's never overwritten
+- If `@tarquinen/opencode-dcp` fails to load, the plugin returns empty hooks so opencode doesn't crash
+
+## CI
+
+GitHub Actions runs build + tests on Node 20 and 22 for every push/PR to `master`.
 
 ## License
 

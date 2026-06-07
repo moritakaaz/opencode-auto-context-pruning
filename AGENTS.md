@@ -8,10 +8,11 @@
 
 ```bash
 npm run build        # tsc → dist/
+npm test             # node:test unit tests (test/index.test.js)
 npm run prepublishOnly  # same as build (runs before npm publish)
 ```
 
-No test suite exists. Verify changes by running `npm run build` and confirming zero TypeScript errors.
+Verify changes by running `npm run build` (zero TypeScript errors) and `npm test` (all tests pass).
 
 ## Workflow for agents
 
@@ -58,14 +59,16 @@ prints the HTTPS URL — this works around a global `insteadOf` rule.
 Single-file plugin at `src/index.ts`:
 1. `ensureGlobalConfig()` — writes `~/.config/opencode/dcp.jsonc` if missing
 2. `ensureApcConfig(projectDir)` — writes `.opencode/dcp.jsonc` if missing
-3. Dynamically imports and delegates to `@tarquinen/opencode-dcp`
+3. `validateExistingConfig()` — checks existing configs for required fields (warns but never overwrites)
+4. Dynamically imports and delegates to `@tarquinen/opencode-dcp`
 
 Config is never overwritten if it already exists — user preferences always win.
+All filesystem and import operations are wrapped in try-catch — plugin logs warnings but never crashes opencode.
 
 ## Key constraints
 
 - DCP does not accept options via the plugin tuple. Config must live in `dcp.jsonc` files (global or project-level).
-- `package.json` `files` array includes `dist/` and `dcp.jsonc` — keep these in sync if adding distributable assets.
+- `package.json` `files` array includes `dist/` — keep in sync if adding distributable assets.
 - Peer dependency: `@opencode-ai/plugin >=1.4.3`. Do not import runtime code from it (types only).
 - Module system: ESM (`"type": "module"`), `moduleResolution: "bundler"` in tsconfig.
 
