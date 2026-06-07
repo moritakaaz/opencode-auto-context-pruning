@@ -199,4 +199,30 @@ describe("Config validation", () => {
     const hooks = await plugin({ directory: tempDir });
     assert.equal(typeof hooks, "object");
   });
+
+  it("does not warn on schema-only config (DCP placeholder)", async () => {
+    const opencodeDir = join(tempDir, ".opencode");
+    mkdirSync(opencodeDir, { recursive: true });
+
+    const configPath = join(opencodeDir, "dcp.jsonc");
+    const schemaOnly = JSON.stringify({
+      $schema: "https://raw.githubusercontent.com/Opencode-DCP/opencode-dynamic-context-pruning/master/dcp.schema.json",
+    });
+    writeFileSync(configPath, schemaOnly, "utf-8");
+
+    // Capture stderr to verify no warning is emitted
+    const originalError = console.error;
+    const warnings = [];
+    console.error = (msg) => warnings.push(msg);
+
+    const mod = await import(DIST);
+    const plugin = mod.default;
+    const hooks = await plugin({ directory: tempDir });
+
+    console.error = originalError;
+
+    assert.equal(typeof hooks, "object");
+    const apcWarnings = warnings.filter((w) => w.includes("[opencode-apc] WARN"));
+    assert.equal(apcWarnings.length, 0, "Should not emit any warnings for schema-only config");
+  });
 });

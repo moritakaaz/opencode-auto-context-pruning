@@ -55,6 +55,7 @@ function warn(message: string): void {
 /**
  * Validates an existing config file for required fields.
  * Returns true if the config looks healthy, false if it may need attention.
+ * Skips validation for schema-only configs (e.g. DCP-generated placeholders).
  */
 function validateExistingConfig(configPath: string): boolean {
   try {
@@ -62,6 +63,12 @@ function validateExistingConfig(configPath: string): boolean {
     // Strip single-line comments for JSON parsing
     const stripped = raw.replace(/^\s*\/\/.*$/gm, "");
     const parsed = JSON.parse(stripped);
+
+    // Schema-only config (e.g. created by DCP itself) — nothing to validate
+    const keys = Object.keys(parsed).filter((k) => k !== "$schema");
+    if (keys.length === 0) {
+      return true;
+    }
 
     // Check required top-level structure
     if (!parsed.compress || typeof parsed.compress !== "object") {
