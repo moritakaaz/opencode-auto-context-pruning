@@ -181,12 +181,12 @@ function ensureGlobalConfig(): void {
   const globalJson = join(configDir, "dcp.json");
 
   // Check existing configs — upgrade if outdated, skip if user-customized
+  // Global config is not validated because DCP applies sensible defaults
+  // when compress section is absent (schema-only configs are legitimate)
   if (existsSync(globalJsonc)) {
     if (shouldUpgradeConfig(globalJsonc)) {
       writeFileSync(globalJsonc, generateConfigContent(), "utf-8");
       log(`Upgraded global config (v${CONFIG_VERSION}): ${globalJsonc}`);
-    } else {
-      validateExistingConfig(globalJsonc);
     }
     return;
   }
@@ -194,8 +194,6 @@ function ensureGlobalConfig(): void {
     if (shouldUpgradeConfig(globalJson)) {
       writeFileSync(globalJson, generateConfigContent(), "utf-8");
       log(`Upgraded global config (v${CONFIG_VERSION}): ${globalJson}`);
-    } else {
-      validateExistingConfig(globalJson);
     }
     return;
   }
