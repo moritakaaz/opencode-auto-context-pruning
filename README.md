@@ -1,0 +1,52 @@
+# @moritakaaz/opencode-apc
+
+An [opencode](https://opencode.ai) plugin that wraps [@tarquinen/opencode-dcp](https://github.com/Opencode-DCP/opencode-dynamic-context-pruning) with aggressive auto-compression defaults. Triggers context pruning at 15k tokens to maximize token savings.
+
+## Installation
+
+```bash
+opencode plugin @moritakaaz/opencode-apc@latest --global
+```
+
+## What it does
+
+This plugin automatically manages your conversation context by:
+
+- Compressing stale conversation content into high-fidelity summaries
+- Triggering compression early (15k tokens) to save costs
+- Deduplicating repeated tool calls
+- Pruning errored tool inputs after 2 turns
+- Nudging the model to compress every 3 turns with strong force
+
+On first run, it creates `dcp.jsonc` config files (global and project-level) with aggressive defaults. Existing configs are never overwritten.
+
+## Configuration
+
+The plugin writes `.opencode/dcp.jsonc` with these defaults:
+
+| Setting | Value | Purpose |
+|---------|-------|---------|
+| maxContextLimit | 15000 | Triggers compression early |
+| minContextLimit | 8000 | Floor for compression target |
+| nudgeFrequency | 3 | Nudge every 3 turns |
+| nudgeForce | "strong" | Assertive nudging |
+| deduplication | enabled | Remove duplicate tool calls |
+| purgeErrors | turns: 2 | Prune errored inputs after 2 turns |
+
+To customize, edit `.opencode/dcp.jsonc` in your project — the plugin won't overwrite it.
+
+## Requirements
+
+- opencode with plugin support (`@opencode-ai/plugin >=1.4.3`)
+- Node.js with ESM support
+
+## Development
+
+```bash
+npm install
+npm run build    # tsc -> dist/
+```
+
+## License
+
+ISC
