@@ -59,7 +59,7 @@ prints the HTTPS URL — this works around a global `insteadOf` rule.
 Single-file plugin at `src/index.ts`:
 1. `ensureGlobalConfig()` — writes `~/.config/opencode/dcp.jsonc` if missing
 2. `ensureApcConfig(projectDir)` — writes `.opencode/dcp.jsonc` if missing
-3. `validateExistingConfig()` — checks existing configs for required fields (warns but never overwrites)
+3. `validateExistingConfig()` — checks existing configs for required fields (warns but never overwrites; silently accepts schema-only placeholders)
 4. `shouldUpgradeConfig()` — returns true if existing config has `_apcVersion` lower than current (triggers auto-upgrade)
 5. Dynamically imports and delegates to `@tarquinen/opencode-dcp`
 

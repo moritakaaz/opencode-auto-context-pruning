@@ -60,7 +60,7 @@ npm test         # node:test unit tests
 
 The plugin is designed to be resilient:
 - If config files can't be written (permission denied, disk full), a warning is logged but the plugin continues
-- If an existing config is malformed or missing required fields, a warning is logged but it's never overwritten
+- If an existing config is malformed or missing required fields, a warning is logged but it's never overwritten (schema-only configs created by DCP are silently accepted)
 - If `@tarquinen/opencode-dcp` fails to load, the plugin returns empty hooks so opencode doesn't crash
 
 ## CI
