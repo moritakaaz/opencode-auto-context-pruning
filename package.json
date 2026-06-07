@@ -1,0 +1,47 @@
+{
+  "name": "@moritakaaz/opencode-apc",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Opencode plugin for aggressive automatic context pruning - triggers compression at 15k tokens to save costs",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "opencode",
+    "opencode-plugin",
+    "context-pruning",
+    "dcp",
+    "token-saving",
+    "auto-compress"
+  ],
+  "author": "moritakaaz",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moritakaaz/opencode-auto-context-pruning.git"
+  },
+  "files": [
+    "dist/",
+    "dcp.jsonc"
+  ],
+  "dependencies": {
+    "@tarquinen/opencode-dcp": "^3.1.12"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.4.3"
+  },
+  "devDependencies": {
+    "@opencode-ai/plugin": "^1.16.2",
+    "@types/node": "^25.9.2",
+    "typescript": "^5.9.3"
+  }
+}
