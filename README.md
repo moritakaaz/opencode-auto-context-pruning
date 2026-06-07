@@ -48,7 +48,7 @@ To customize, edit `.opencode/dcp.jsonc` in your project and **remove the `_apcV
 
 ### Custom config example
 
-For security research and complex development workflows that need more context retention:
+For further optimization with more balanced context retention:
 
 ```jsonc
 // .opencode/dcp.jsonc — custom config (no _apcVersion = plugin won't overwrite)
